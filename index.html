@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محاسبه قیمت طلای ۱۸ عیار</title>
+<style>
+body {
+    font-family: 'Tahoma', sans-serif;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+.calculator {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    transition: transform 0.3s;
+    margin-bottom: 20px;
+}
+.calculator:hover { transform: translateY(-5px); }
+h2 { margin-bottom: 30px; color: #333; font-size: 24px; }
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.input-group label { width: 120px; text-align: right; font-weight: 600; color: #555; font-size: 14px; }
+.input-group input {
+    width: calc(100% - 130px);
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    text-align: center;
+    transition: all 0.2s;
+}
+.input-group input:focus { border-color: #ff7eb3; box-shadow: 0 0 8px rgba(255,126,179,0.3); outline: none; }
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 10px 0 20px 0;
+    font-size: 14px;
+}
+.checkbox-group input[type="checkbox"] { margin-left: 8px; transform: scale(1.2); cursor: pointer; }
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 15px;
+}
+button:hover { background: linear-gradient(135deg, #ff5fa3, #ff4e91); transform: translateY(-3px); }
+.result {
+    margin-top: 25px;
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+    padding: 12px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+#installBtn {
+    display: none;
+    width: 90%;
+    max-width: 420px;
+    padding: 14px;
+    border: none;
+    border-radius: 15px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+#installBtn:hover { background-color: #45a049; }
+@media (max-width: 480px) {
+    .calculator { padding: 30px 20px; }
+    .input-group label { width: 110px; font-size: 13px; }
+    .input-group input { font-size: 15px; }
+    .result { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <h2>محاسبه قیمت طلای ۱۸ عیار</h2>
+
+    <div class="input-group">
+        <label for="pricePerGram">قیمت هر گرم:</label>
+        <input type="text" id="pricePerGram" inputmode="numeric" pattern="[0-9,]*" />
+    </div>
+
+    <div class="input-group">
+        <label for="weight">وزن (گرم):</label>
+        <input type="text" id="weight" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" />
+    </div>
+
+    <div class="input-group">
+        <label for="profitPercent">سود دلخواه (%):</label>
+        <input type="text" id="profitPercent" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" />
+    </div>
+
+    <div class="input-group">
+        <label for="wagePercent">اجرت دلخواه (%):</label>
+        <input type="text" id="wagePercent" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" />
+    </div>
+
+    <div class="checkbox-group">
+        <input type="checkbox" id="taxCheck" checked />
+        <label for="taxCheck">محاسبه مالیات ۱۰٪</label>
+    </div>
+
+    <button onclick="calculateGoldPrice()">محاسبه</button>
+    <div class="result" id="result"></div>
+</div>
+
+<button id="installBtn">افزودن به صفحه اصلی</button>
+
+<script>
+// قیمت هر گرم: خودکار کاما
+function formatPriceInput(element) {
+    element.addEventListener('input', function() {
+        let value = this.value.replace(/,/g, '');
+        if(!isNaN(value) && value.length > 0) {
+            this.value = Number(value).toLocaleString('en-US');
+        } else {
+            this.value = '';
+        }
+    });
+}
+
+// وزن، سود، اجرت: اجازه اعشار با نقطه
+function allowDecimalInput(element) {
+    element.addEventListener('input', function() {
+        this.value = this.value.replace(',', '.'); // کاما به نقطه
+        this.value = this.value.replace(/[^0-9.]/g, ''); // فقط اعداد و نقطه
+    });
+}
+
+// اعمال روی فیلدها
+formatPriceInput(document.getElementById('pricePerGram'));
+['weight','profitPercent','wagePercent'].forEach(id => {
+    allowDecimalInput(document.getElementById(id));
+});
+
+function calculateGoldPrice() {
+    const pricePerGram = parseFloat(document.getElementById('pricePerGram').value.replace(/,/g, '')) || 0;
+    const weight = parseFloat(document.getElementById('weight').value.replace(',', '.')) || 0;
+    const profitPercent = parseFloat(document.getElementById('profitPercent').value.replace(',', '.')) || 0;
+    const wagePercent = parseFloat(document.getElementById('wagePercent').value.replace(',', '.')) || 0;
+    const taxChecked = document.getElementById('taxCheck').checked;
+
+    const basePrice = pricePerGram * weight;
+    const priceWithProfit = pricePerGram + (pricePerGram * (profitPercent / 100));
+    const effectiveWeight = weight + (weight * (wagePercent / 100));
+    const finalPriceWithoutTax = priceWithProfit * effectiveWeight;
+
+    let finalPrice = finalPriceWithoutTax;
+
+    if(taxChecked) {
+        const tax = (finalPriceWithoutTax - basePrice) * 0.10;
+        finalPrice += tax;
+    }
+
+    document.getElementById('result').innerText = `قیمت نهایی: ${finalPrice.toLocaleString('fa-IR')} تومان`;
+}
+
+// PWA Install
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'block';
+});
+
+installBtn.addEventListener('click', async () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') console.log('کاربر نصب را تایید کرد');
+        deferredPrompt = null;
+        installBtn.style.display = 'none';
+    }
+});
+</script>
+
+</body>
+</html>
