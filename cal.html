@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محاسبه قیمت طلای ۱۸ عیار</title>
+<link rel="icon" type="image/png" href="https://fs.noorgram.ir/xen/2021/05/1937_a04f325674750b15e1a00d49222b587f.png">
+<link rel="apple-touch-icon" href="https://fs.noorgram.ir/xen/2021/05/1937_a04f325674750b15e1a00d49222b587f.png">
+<link rel="manifest" href="manifest.json">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(160deg, #1a1a1a, #333, #ffd700, #ffecb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    transition: all 0.3s;
+}
+
+.calculator {
+    background: rgba(20,20,20,0.95);
+    padding: 45px 35px;
+    border-radius: 30px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35), 0 0 20px rgba(255,215,0,0.3);
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    transition: all 0.4s ease;
+}
+
+.calculator:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4), 0 0 25px rgba(255,215,0,0.5);
+}
+
+h2 {
+    margin-bottom: 35px;
+    color: #ffd700;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px #ffd700;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #fff;
+    font-size: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 18px;
+    border: 1px solid #555;
+    font-size: 16px;
+    text-align: center;
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    transition: all 0.25s;
+}
+
+.input-group input:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 12px rgba(255,215,0,0.5);
+    outline: none;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+    font-size: 14px;
+    gap: 8px;
+    color: #fff;
+}
+
+.checkbox-group input[type="checkbox"] {
+    transform: scale(1.3);
+    cursor: pointer;
+}
+
+button {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #ffd700, #ffecb3);
+    color: #1a1a1a;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+    box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+}
+
+button:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(255,215,0,0.6);
+}
+
+.result {
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffd700;
+    padding: 16px;
+    background: rgba(255,215,0,0.1);
+    border-radius: 18px;
+    box-shadow: inset 0 4px 12px rgba(255,215,0,0.2);
+    transition: all 0.3s;
+}
+
+#installBtn {
+    display: none;
+    width: 90%;
+    max-width: 480px;
+    padding: 18px;
+    border: none;
+    border-radius: 22px;
+    background-color: #ffd700;
+    color: #1a1a1a;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 18px;
+    box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+}
+
+#installBtn:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(255,215,0,0.6);
+}
+
+@media(max-width:520px){
+    .calculator { padding: 35px 25px; }
+    h2 { font-size: 24px; }
+    .input-group input { font-size: 15px; padding:12px 15px; }
+    .result { font-size: 22px; padding:12px; }
+    button, #installBtn { font-size: 16px; padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <h2>محاسبه قیمت طلای ۱۸ عیار</h2>
+
+    <div class="input-group">
+        <label for="pricePerGram">قیمت هر گرم:</label>
+        <input type="text" id="pricePerGram" inputmode="numeric" pattern="[0-9,]*" />
+    </div>
+
+    <div class="input-group">
+        <label for="weight">وزن (گرم):</label>
+        <input type="text" id="weight" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" />
+    </div>
+
+    <div class="input-group">
+        <label for="profitPercent">سود دلخواه (%):</label>
+        <input type="text" id="profitPercent" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" />
+    </div>
+
+    <div class="input-group">
+        <label for="wagePercent">اجرت دلخواه (%):</label>
+        <input type="text" id="wagePercent" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" />
+    </div>
+
+    <div class="checkbox-group">
+        <input type="checkbox" id="taxCheck" checked />
+        <label for="taxCheck">محاسبه مالیات</label>
+    </div>
+
+    <button onclick="calculateGoldPrice()">محاسبه</button>
+    <div class="result" id="result"></div>
+</div>
+
+<button id="installBtn">افزودن به صفحه اصلی</button>
+
+<script>
+// قیمت هر گرم: خودکار کاما
+function formatPriceInput(element) {
+    element.addEventListener('input', function() {
+        let value = this.value.replace(/,/g,'');
+        if(!isNaN(value) && value.length>0){
+            this.value = Number(value).toLocaleString('en-US');
+        } else this.value='';
+    });
+}
+
+// وزن، سود، اجرت: اجازه اعشار با نقطه
+function allowDecimalInput(element){
+    element.addEventListener('input', function(){
+        this.value = this.value.replace(',', '.');
+        this.value = this.value.replace(/[^0-9.]/g,'');
+    });
+}
+
+formatPriceInput(document.getElementById('pricePerGram'));
+['weight','profitPercent','wagePercent'].forEach(id=>{
+    allowDecimalInput(document.getElementById(id));
+});
+
+function calculateGoldPrice(){
+    const pricePerGram = parseFloat(document.getElementById('pricePerGram').value.replace(/,/g,''))||0;
+    const weight = parseFloat(document.getElementById('weight').value.replace(',','.'))||0;
+    const profitPercent = parseFloat(document.getElementById('profitPercent').value.replace(',','.'))||0;
+    const wagePercent = parseFloat(document.getElementById('wagePercent').value.replace(',','.'))||0;
+    const taxChecked = document.getElementById('taxCheck').checked;
+
+    const basePrice = pricePerGram * weight;
+    const priceWithProfit = pricePerGram + (pricePerGram*(profitPercent/100));
+    const effectiveWeight = weight + (weight*(wagePercent/100));
+    const finalPriceWithoutTax = priceWithProfit * effectiveWeight;
+
+    let finalPrice = finalPriceWithoutTax;
+    if(taxChecked){
+        const tax = (finalPriceWithoutTax-basePrice)*0.10;
+        finalPrice += tax;
+    }
+
+    document.getElementById('result').innerText = `قیمت نهایی: ${Math.round(finalPrice).toLocaleString('fa-IR')} تومان`;
+}
+
+// PWA Install
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredPrompt=e;
+    installBtn.style.display='block';
+});
+
+installBtn.addEventListener('click', async ()=>{
+    if(deferredPrompt){
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if(outcome==='accepted') console.log('کاربر نصب را تایید کرد');
+        deferredPrompt=null;
+        installBtn.style.display='none';
+    }
+});
+</script>
+
+</body>
+</html>

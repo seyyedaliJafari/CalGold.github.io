@@ -1,21 +1,24 @@
 {
-  "name": "محاسبه‌گر طلای ۱۸ عیار",
-  "short_name": "طلای ۱۸",
-  "description": "محاسبه قیمت طلا با سود، اجرت و مالیات",
-  "start_url": "/home.html",
+  "name": "محاسبه قیمت طلا",
+  "short_name": "محاسبه قیمت طلا",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#1a1a1a",
-  "theme_color": "#ffd700",
+  "background_color": "",
+  "theme_color": "#ffffff",
+
   "icons": [
     {
       "src": "https://fs.noorgram.ir/xen/2021/05/1937_a04f325674750b15e1a00d49222b587f.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "https://fs.noorgram.ir/xen/2021/05/1937_a04f325674750b15e1a00d49222b587f.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
