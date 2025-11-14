@@ -2,9 +2,11 @@
   "name": "محاسبه قیمت طلا",
   "short_name": "طلا 18",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
+
   "icons": [
     {
       "src": "https://fs.noorgram.ir/xen/2021/05/1937_a04f325674750b15e1a00d49222b587f.png",
