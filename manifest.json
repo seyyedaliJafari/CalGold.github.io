@@ -1,7 +1,7 @@
 {
   "name": "محاسبه قیمت طلا",
   "short_name": "محاسبه قیمت طلا",
-  "start_url": "./",
+  "start_url": "./home.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "",
