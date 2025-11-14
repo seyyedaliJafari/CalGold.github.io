@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>محاسبه‌گر هوشمند طلا</title>
+    <link rel="icon" type="image/png" href="https://fs.noorgram.ir/xen/2021/05/1937_a04f325674750b15e1a00d49222b587f.png" />
+    <link rel="manifest" href="manifest.json" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(160deg, #1a1a1a, #333, #ffd700, #ffecb3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .calculator {
+            background: rgba(20,20,20,0.95);
+            padding: 45px 35px;
+            border-radius: 30px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35), 0 0 20px rgba(255,215,0,0.3);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .calculator:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.4), 0 0 25px rgba(255,215,0,0.5);
+        }
+
+        h2 {
+            margin-bottom: 35px;
+            color: #ffd700;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px #ffd700;
+        }
+
+        .choice-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .choice-btn {
+            flex: 1;
+            padding: 18px;
+            border: 2px solid #ffd700;
+            border-radius: 22px;
+            background: rgba(255,215,0,0.1);
+            color: #ffd700;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .choice-btn:hover, .choice-btn.active {
+            background: #ffd700;
+            color: #1a1a1a;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(255,215,0,0.5);
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            border: 1px solid #555;
+            font-size: 16px;
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            transition: all 0.25s;
+        }
+
+        .input-group input:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 12px rgba(255,215,0,0.5);
+            outline: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+            font-size: 14px;
+            gap: 8px;
+            color: #fff;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            transform: scale(1.3);
+            cursor: pointer;
+        }
+
+        button.calculate-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #ffd700, #ffecb3);
+            color: #1a1a1a;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+            margin-bottom: 15px;
+        }
+
+        button.calculate-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(255,215,0,0.6);
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffd700;
+            padding: 16px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 18px;
+            box-shadow: inset 0 4px 12px rgba(255,215,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            color: #ccc;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #ffd700;
+            text-decoration: underline;
+        }
+
+        #installBtn {
+            display: none;
+            width: 90%;
+            max-width: 480px;
+            padding: 18px;
+            border: none;
+            border-radius: 22px;
+            background-color: #ffd700;
+            color: #1a1a1a;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 20px auto 0;
+            box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+        }
+
+        #installBtn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(255,215,0,0.6);
+        }
+
+        @media(max-width:520px){
+            .calculator { padding: 35px 25px; }
+            h2 { font-size: 23px; }
+            .choice-btn { font-size: 16px; padding: 14px; }
+            .input-group input { font-size: 15px; padding:12px 15px; }
+            .result { font-size: 20px; padding:12px; }
+            button.calculate-btn, #installBtn { font-size: 16px; padding:16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <h2>محاسبه‌گر هوشمند طلا</h2>
+
+    <!-- مرحله ۱: انتخاب فروش یا خرید -->
+    <div id="choiceSection" class="form-section active">
+        <p style="margin-bottom: 25px; color:#eee;">قراره طلا بفروشی یا بخری؟</p>
+        <div class="choice-buttons">
+            <button class="choice-btn" onclick="selectMode('sell')">فروش طلا</button>
+            <button class="choice-btn" onclick="selectMode('buy')">خرید طلا</button>
+        </div>
+    </div>
+
+    <!-- مرحله ۲: فروش طلا (مستعمل) — کارمزد اضافه میشه -->
+    <div id="sellSection" class="form-section">
+        <div class="input-group">
+            <label for="sellPricePerGram">قیمت هر گرم طلای ۱۸ عیار (تومان):</label>
+            <input type="text" id="sellPricePerGram" inputmode="numeric" placeholder="مثلاً ۳,۲۰۰,۰۰۰" />
+        </div>
+
+        <div class="input-group">
+            <label for="sellWeight">وزن طلا (گرم):</label>
+            <input type="text" id="sellWeight" inputmode="decimal" placeholder="مثلاً ۱۰.۵" />
+        </div>
+
+        <div class="input-group">
+            <label for="sellProfitPercent">کارمزد طلافروشی (%):</label>
+            <input type="text" id="sellProfitPercent" value="7" inputmode="decimal" placeholder="مثلاً ۷" />
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="sellTaxCheck" checked />
+            <label for="sellTaxCheck">محاسبه مالیات</label>
+        </div>
+
+        <button class="calculate-btn" onclick="calculateSell()">محاسبه قیمت دریافتی</button>
+        <div class="result" id="sellResult"></div>
+    </div>
+
+    <!-- مرحله ۳: خرید طلا (مستعمل) — فقط قیمت نهایی -->
+    <div id="buySection" class="form-section">
+        <div class="input-group">
+            <label for="buyMazaneh">مظنه (تومان):</label>
+            <input type="text" id="buyMazaneh" inputmode="numeric" placeholder="مثلاً ۳,۲۰۰,۰۰۰" />
+        </div>
+
+        <div class="input-group">
+            <label for="buyWeight">وزن طلا (گرم):</label>
+            <input type="text" id="buyWeight" inputmode="decimal" placeholder="مثلاً ۱۰.۵" />
+        </div>
+
+        <button class="calculate-btn" onclick="calculateBuy()">محاسبه قیمت پرداخت</button>
+        <div class="result" id="buyResult"></div>
+    </div>
+
+    <a href="index.html" class="back-link">برگشت به صفحه اصلی</a>
+</div>
+
+<button id="installBtn">افزودن به صفحه اصلی</button>
+
+<script>
+// نمایش فرم مربوطه
+function selectMode(mode) {
+    document.getElementById('choiceSection').classList.remove('active');
+    document.getElementById(mode + 'Section').classList.add('active');
+    document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`button[onclick="selectMode('${mode}')"]`).classList.add('active');
+}
+
+// فرمت قیمت
+function formatPriceInput(element) {
+    element.addEventListener('input', function() {
+        let value = this.value.replace(/,/g,'');
+        if(!isNaN(value) && value.length>0){
+            this.value = Number(value).toLocaleString('en-US');
+        } else this.value='';
+    });
+}
+
+// اجازه اعشار
+function allowDecimalInput(element){
+    element.addEventListener('input', function(){
+        this.value = this.value.replace(',', '.');
+        this.value = this.value.replace(/[^0-9.]/g,'');
+        if ((this.value.match(/\./g) || []).length > 1) {
+            this.value = this.value.replace(/\.+$/, "");
+        }
+    });
+}
+
+// اعمال فرمت
+['sellPricePerGram', 'buyMazaneh'].forEach(id => formatPriceInput(document.getElementById(id)));
+['sellWeight', 'buyWeight', 'sellProfitPercent'].forEach(id => allowDecimalInput(document.getElementById(id)));
+
+// محاسبه فروش — کارمزد اضافه میشه (مثل cal.html)
+function calculateSell() {
+    const pricePerGram = parseFloat(document.getElementById('sellPricePerGram').value.replace(/,/g,'')) || 0;
+    const weight = parseFloat(document.getElementById('sellWeight').value.replace(',','.')) || 0;
+    const profitPercent = parseFloat(document.getElementById('sellProfitPercent').value.replace(',','.')) || 0;
+    const taxChecked = document.getElementById('sellTaxCheck').checked;
+
+    if (pricePerGram === 0 || weight === 0) {
+        document.getElementById('sellResult').innerHTML = '<span style="color:#ff6b6b;">لطفاً قیمت و وزن را وارد کنید!</span>';
+        return;
+    }
+
+    const basePrice = pricePerGram * weight;
+    const priceWithProfit = pricePerGram + (pricePerGram * (profitPercent / 100)); // اضافه کردن کارمزد
+    const finalPriceWithoutTax = priceWithProfit * weight; // بدون اجرت
+
+    let finalPrice = finalPriceWithoutTax;
+    if (taxChecked) {
+        const tax = (finalPriceWithoutTax - basePrice) * 0.10; // فقط از کارمزد
+        finalPrice += tax;
+    }
+
+    document.getElementById('sellResult').innerHTML = `
+
+           قیمت نهایی: ${Math.round(finalPrice).toLocaleString('fa-IR')} تومان
+        </div>
+    `;
+}
+
+// محاسبه خرید — فقط قیمت نهایی
+function calculateBuy() {
+    const mazaneh = parseFloat(document.getElementById('buyMazaneh').value.replace(/,/g,'')) || 0;
+    const weight = parseFloat(document.getElementById('buyWeight').value.replace(',','.')) || 0;
+
+    if (mazaneh === 0 || weight === 0) {
+        document.getElementById('buyResult').innerHTML = '<span style="color:#ff6b6b;">لطفاً مظنه و وزن را وارد کنید!</span>';
+        return;
+    }
+
+    const finalPrice = (((weight * 740) / 750) / 4.3318) * mazaneh;
+
+    document.getElementById('buyResult').innerHTML = `
+        قیمت نهایی: ${Math.round(finalPrice).toLocaleString('fa-IR')} تومان
+        </div>
+    `;
+}
+
+// PWA Install
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredPrompt=e;
+    installBtn.style.display='block';
+});
+
+installBtn.addEventListener('click', async ()=>{
+    if(deferredPrompt){
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if(outcome==='accepted') console.log('نصب شد');
+        deferredPrompt=null;
+        installBtn.style.display='none';
+    }
+});
+</script>
+
+</body>
+</html>
