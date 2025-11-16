@@ -62,9 +62,10 @@ th { color:#ffd700; font-weight:600; }
 </div>
 
 <script>
-const url = "https://getprice.infinityfreeapp.com/index.php"; // JSON مستقیم
+const url = "https://getprice.infinityfreeapp.com/index.php";
+const proxy = "https://cors-anywhere.com/"; // پروکسی CORS Anywhere
 
-fetch(url)
+fetch(proxy + url)
 .then(res => res.json())
 .then(json => {
     const mainTbody = document.querySelector('#mainPrices tbody');
