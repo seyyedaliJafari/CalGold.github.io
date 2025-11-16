@@ -3,91 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قیمت‌ها</title>
+<title>خروجی سرور</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
 body {
     font-family: sans-serif;
-    background: linear-gradient(160deg, #1a1a1a, #333, #ffd700, #ffecb3);
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    padding:40px 20px;
-    text-align:center;
-    color:#fff;
-    gap:20px;
-}
-.card {
-    max-width:500px;
-    width:100%;
-    background: rgba(20,20,20,0.95);
-    padding:30px 25px;
-    border-radius:20px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3),0 0 15px rgba(255,215,0,0.2);
-    transition: all 0.3s ease;
-}
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow:0 25px 60px rgba(0,0,0,0.4),0 0 20px rgba(255,215,0,0.4);
-}
-h2 { font-size:28px; color:#ffd700; margin-bottom:15px; text-shadow:0 0 6px #ffd700; }
-table { width:100%; border-collapse:collapse; margin-top:10px; }
-th, td { padding:10px 12px; border-bottom:1px solid rgba(255,215,0,0.3); text-align:right; }
-th { color:#ffd700; font-weight:600; }
-@media(max-width:520px){
-    .card { padding:25px 15px; }
-    h2 { font-size:24px; }
-    th, td { font-size:14px; padding:8px 10px; }
+    background: #1a1a1a;
+    color: #ffd700;
+    padding: 20px;
+    line-height: 1.6;
+    white-space: pre-wrap; /* نمایش خط به خط */
 }
 </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>قیمت‌های اصلی</h2>
-    <table id="mainPrices">
-        <thead><tr><th>عنوان</th><th>قیمت</th></tr></thead>
-        <tbody></tbody>
-    </table>
-</div>
-
-<div class="card">
-    <h2>قیمت‌های اختصاصی</h2>
-    <table id="customPrices">
-        <thead><tr><th>عنوان</th><th>قیمت</th></tr></thead>
-        <tbody></tbody>
-    </table>
-</div>
+<h2>خروجی سرور:</h2>
+<pre id="output">در حال بارگذاری...</pre>
 
 <script>
-const url = "https://getprice.infinityfreeapp.com/index.php";
-const proxy = "https://cors-anywhere.com/"; // پروکسی CORS Anywhere
+const url = "https://cors-anywhere.herokuapp.com/https://getprice.infinityfreeapp.com/index.php";
 
-fetch(proxy + url)
-.then(res => res.json())
-.then(json => {
-    const mainTbody = document.querySelector('#mainPrices tbody');
-    json.ItemList.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${item.Title}</td><td>${item.Value}</td>`;
-        mainTbody.appendChild(row);
-    });
-
-    const customTbody = document.querySelector('#customPrices tbody');
-    json.ItemListEkhtesasi.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${item.Title}</td><td>${item.Value}</td>`;
-        customTbody.appendChild(row);
-    });
+fetch(url, {
+    headers: {
+        "X-Requested-With": "XMLHttpRequest"
+    }
+})
+.then(res => res.text()) // توجه: اینجا text می‌گیریم نه json
+.then(text => {
+    document.getElementById('output').textContent = text;
 })
 .catch(err => {
-    console.error("خطا در بارگذاری JSON:", err);
-    const cards = document.querySelectorAll('.card tbody');
-    cards.forEach(tbody => {
-        tbody.innerHTML = "<tr><td colspan='2'>داده‌ها قابل بارگذاری نیستند</td></tr>";
-    });
+    document.getElementById('output').textContent = "خطا در دریافت داده:\n" + err;
+    console.error(err);
 });
 </script>
 
