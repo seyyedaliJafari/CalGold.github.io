@@ -3,40 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خروجی سرور</title>
+<title>قیمت طلا</title>
 <style>
-body {
-    font-family: sans-serif;
-    background: #1a1a1a;
-    color: #ffd700;
-    padding: 20px;
-    line-height: 1.6;
-    white-space: pre-wrap; /* نمایش خط به خط */
-}
+body { font-family: 'Poppins', sans-serif; background:#111; margin:0; padding:20px; display:flex; justify-content:center; }
+iframe { border:none; width:100%; max-width:700px; height:90vh; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.5); }
 </style>
 </head>
 <body>
 
-<h2>خروجی سرور:</h2>
-<pre id="output">در حال بارگذاری...</pre>
-
-<script>
-const url = "https://cors-anywhere.com/https://getprice.infinityfreeapp.com/index.php";
-
-fetch(url, {
-    headers: {
-        "X-Requested-With": "XMLHttpRequest"
-    }
-})
-.then(res => res.text()) // توجه: اینجا text می‌گیریم نه json
-.then(text => {
-    document.getElementById('output').textContent = text;
-})
-.catch(err => {
-    document.getElementById('output').textContent = "خطا در دریافت داده:\n" + err;
-    console.error(err);
-});
-</script>
-
+<iframe src="https://cold-shape-1647.alisgm1391.workers.dev/"></iframe>
+<div>
+    <a href="index.html" class="back-link">برگشت به صفحه اصلی</a>
+</div>
 </body>
 </html>
